@@ -2,18 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 )
 
 func main() {
-	tlog := timing()
-	defer tlog()
-	fmt.Println("hello edmund.")
-}
-
-func timing() func() {
-	start := time.Now()
-	return func() {
-		fmt.Println("time cost", time.Since(start))
-	}
+	defer func() {
+		log.Println("returned")
+	}()
+	fmt.Println("hello edmund")
+	time.Sleep(time.Second)
+	// fmt.Println(os.Environ())
 }
