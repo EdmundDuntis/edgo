@@ -1,13 +1,26 @@
 package main
 
-import (
-	"fmt"
-	"github.com/EdmundDuntis/edgo/pkg/glib"
-)
+import "fmt"
 
 func main() {
-	t := glib.TypeInspect("abc")
-	fmt.Println(t)
-	t = glib.TypeInspect(1)
-	fmt.Println(t)
+	messages := make(chan int)
+	go func() {
+		for n := 0; n < 10; n++ {
+			messages <- n
+		}
+		close(messages)
+	}()
+
+/*	for {
+		msg, more := <-messages
+		if more {
+			fmt.Println(msg)
+		} else {
+			break
+		}
+	}*/
+
+	for msg := range messages {
+		fmt.Println(msg)
+	}
 }
