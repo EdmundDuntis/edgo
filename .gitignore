@@ -15,6 +15,14 @@
 
 
 
+.ideae
+.ideae*
+.ideae/*
+*.ideae
+*/.ideae
+.ideae/workspace.xml
+
+
 # Test binary, build with `go test -c`
 *.test
 
