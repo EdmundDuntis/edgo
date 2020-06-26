@@ -1,26 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+)
 
 func main() {
-	messages := make(chan int)
+
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
 	go func() {
-		for n := 0; n < 10; n++ {
-			messages <- n
-		}
-		close(messages)
+		sig := <-sigs
+		fmt.Println()
+		fmt.Println(sig)
+		done <- true
 	}()
 
-/*	for {
-		msg, more := <-messages
-		if more {
-			fmt.Println(msg)
-		} else {
-			break
-		}
-	}*/
-
-	for msg := range messages {
-		fmt.Println(msg)
-	}
+	fmt.Println("awaiting signal")
+	<-done
+	fmt.Println("exiting")
 }
