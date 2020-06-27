@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import _ "github.com/EdmundDuntis/edgo/zprivate/warmupe/warmup/testpkg"
+import _ "github.com/EdmundDuntis/edgo/examples/warmup/testpkg"
 
 func main() {
 	age:=29
