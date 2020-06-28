@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+)
 import "github.com/mattn/go-sqlite3"
 
 type Saiyan struct {
@@ -27,6 +32,48 @@ func main() {
 	_, _ = packages()
 	pointerOrValue()
 	interfaceTest()
+
+	errProcess()
+
+	e := deferTest()
+	fmt.Println("ee:", e)
+
+}
+
+func deferTest() (err error) {
+	file, err := os.Open("a_file_to_read")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	//file = nil
+	defer func() {
+		err = file.Close()
+	}()
+	return
+}
+
+func errProcess() {
+	s := "4x"
+	n, err := strconv.Atoi(s)
+	if err != nil {
+		fmt.Println("not a valid number")
+	} else {
+		fmt.Println(n)
+	}
+
+	if err := process(2); err != nil {
+		fmt.Println("2:", err)
+	}
+	if err := process(0); err != nil {
+		fmt.Println("0", err)
+	}
+}
+func process(count int) error {
+	if count < 1 {
+		return errors.New("invalid count")
+	}
+	return nil
 }
 
 func interfaceTest() {
@@ -36,7 +83,7 @@ func interfaceTest() {
 	moving(r)
 }
 
-func moving(m movable)  {
+func moving(m movable) {
 	m.move()
 }
 
