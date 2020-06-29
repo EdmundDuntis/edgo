@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -20,6 +21,9 @@ func main() {
 	res:=fibonacci1(40)
 	d1:=time.Since(t1)
 	fmt.Println(res,d1)
+
+
+	fmt.Println(strings.IndexFunc("中abc文def",IsAscii))
 
 }
 
@@ -91,4 +95,11 @@ func fibonacci1(n int) (res int) {
 		res = fibonacci(n - 1) + fibonacci(n - 2)
 	}
 	return
+}
+
+func IsAscii(c rune) bool {
+	if c > 255 {
+		return false
+	}
+	return true
 }
