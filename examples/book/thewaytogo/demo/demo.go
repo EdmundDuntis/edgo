@@ -13,23 +13,26 @@ func main() {
 	b()
 	_, _ = func1("Go")
 
-	//t:=time.Now()
-	//res:=fibonacci(50)
-	//d:=time.Since(t)
-	//fmt.Println(res,d)
-	t1:=time.Now()
-	res:=fibonacci1(40)
-	d1:=time.Since(t1)
-	fmt.Println(res,d1)
+	t := time.Now()
+	for i:=0;i<9000;i++{
+		fibonacci(i)
+	}
+	d := time.Since(t)
+	fmt.Println(d)
 
+	t1 := time.Now()
+	for i:=0;i<9000;i++{
+		fibonacci1(i)
+	}
+	d1 := time.Since(t1)
+	fmt.Println(d1)
 
-	fmt.Println(strings.IndexFunc("中abc文def",IsAscii))
+	fmt.Println(strings.IndexFunc("中abc文def", IsAscii))
 
-	addBmp,addJpeg := MakeAddSuffix(".bmp"),MakeAddSuffix(".jpeg")
-	fmt.Println(addBmp("file"),addJpeg("file"))
+	addBmp, addJpeg := MakeAddSuffix(".bmp"), MakeAddSuffix(".jpeg")
+	fmt.Println(addBmp("file"), addJpeg("file"))
 
 }
-
 
 func MakeAddSuffix(suffix string) func(string) string {
 	return func(name string) string {
@@ -79,33 +82,27 @@ func func1(s string) (n int, err error) {
 	return 7, io.EOF
 }
 
+var fibres [10000]int
 
-var fibres [100]int
 func fibonacci(n int) (res int) {
+	if fibres[n] != 0 {
+		res = fibres[n]
+		return
+	}
 	if n <= 1 {
 		res = 1
-		fibres[n] = 1
 	} else {
-		fiba, fibb := fibres[n-1], fibres[n-2]
-		if fiba == 0 {
-			fiba = fibonacci(n - 1)
-			fibres[n-1] = fiba
-		}
-		if fibb == 0 {
-			fibb = fibonacci(n - 2)
-			fibres[n-2] = fibb
-		}
-		res = fiba + fibb
+		res = fibonacci(n-1) + fibonacci(n-2)
 	}
+	fibres[n] = res
 	return
 }
-
 
 func fibonacci1(n int) (res int) {
 	if n <= 1 {
 		res = 1
 	} else {
-		res = fibonacci(n - 1) + fibonacci(n - 2)
+		res = fibonacci(n-1) + fibonacci(n-2)
 	}
 	return
 }
