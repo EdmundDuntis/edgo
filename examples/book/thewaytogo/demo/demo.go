@@ -4,11 +4,18 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"runtime"
 	"strings"
 	"time"
 )
 
 func main() {
+
+	where := func() {
+		_, file, line, _ := runtime.Caller(1)
+		log.Printf("%s:%d", file, line)
+	}
+
 	deferExample()
 	b()
 	_, _ = func1("Go")
@@ -17,6 +24,9 @@ func main() {
 	for i:=0;i<9000;i++{
 		fibonacci(i)
 	}
+
+	where()
+
 	d := time.Since(t)
 	fmt.Println(d)
 
@@ -113,3 +123,6 @@ func IsAscii(c rune) bool {
 	}
 	return true
 }
+
+
+
