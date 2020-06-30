@@ -25,6 +25,19 @@ func main() {
 
 	fmt.Println(strings.IndexFunc("中abc文def",IsAscii))
 
+	addBmp,addJpeg := MakeAddSuffix(".bmp"),MakeAddSuffix(".jpeg")
+	fmt.Println(addBmp("file"),addJpeg("file"))
+
+}
+
+
+func MakeAddSuffix(suffix string) func(string) string {
+	return func(name string) string {
+		if !strings.HasSuffix(name, suffix) {
+			return name + suffix
+		}
+		return name
+	}
 }
 
 func deferExample() {
